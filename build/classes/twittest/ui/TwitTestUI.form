@@ -84,8 +84,12 @@
                 <Column editable="false" title="Status text" type="java.lang.String"/>
               </Table>
             </Property>
+            <Property name="autoResizeMode" type="int" value="4"/>
             <Property name="rowHeight" type="int" value="36"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new JTable(){@Override        public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {            Component component = super.prepareRenderer(renderer, row, column);            int rendererWidth = component.getPreferredSize().width;            TableColumn tableColumn = getColumnModel().getColumn(column);            tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width, tableColumn.getPreferredWidth()));            return component;         }     };"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

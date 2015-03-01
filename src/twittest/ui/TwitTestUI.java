@@ -26,17 +26,17 @@ public class TwitTestUI extends javax.swing.JFrame {
      */
     public TwitTestUI() {
         initComponents();
-        mytTable = new JTable() {
-            @Override
-            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
-                Component component = super.prepareRenderer(renderer, row, column);
-                int rendererWidth = component.getPreferredSize().width;
-                TableColumn tableColumn = getColumnModel().getColumn(column);
-                tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width, tableColumn.getPreferredWidth()));
-                return component;
-            }
-        };
-        mytTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//        mytTable = new JTable() {
+//            @Override
+//            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+//                Component component = super.prepareRenderer(renderer, row, column);
+//                int rendererWidth = component.getPreferredSize().width;
+//                TableColumn tableColumn = getColumnModel().getColumn(column);
+//                tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width, tableColumn.getPreferredWidth()));
+//                return component;
+//            }
+//        };
+//        mytTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         resultTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
     }
 
@@ -52,7 +52,7 @@ public class TwitTestUI extends javax.swing.JFrame {
         searchTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        resultTable = new javax.swing.JTable();
+        resultTable = new JTable(){@Override        public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {            Component component = super.prepareRenderer(renderer, row, column);            int rendererWidth = component.getPreferredSize().width;            TableColumn tableColumn = getColumnModel().getColumn(column);            tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width, tableColumn.getPreferredWidth()));            return component;         }     };
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("TwitSearch");
@@ -110,6 +110,7 @@ public class TwitTestUI extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        resultTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         resultTable.setRowHeight(36);
         jScrollPane2.setViewportView(resultTable);
 
