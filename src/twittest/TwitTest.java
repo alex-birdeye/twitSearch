@@ -14,9 +14,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import javax.swing.ImageIcon;
 import twitter4j.*;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -144,12 +147,15 @@ public class TwitTest {
         return accessToken;
     }
 
-    public static /*StringBuffer*/ List search(String searchStr) {
-        StringBuffer sb = new StringBuffer();
+    public static /*StringBuffer*/ List search(String searchStr, int resQuantity) {
+//        StringBuffer sb = new StringBuffer();
         List usersAndStstuses = new ArrayList();
         Query query = new Query(searchStr);
-        query.setCount(20);
+        query.setCount(resQuantity);
         QueryResult result = null;
+        User user = null;
+        URL url = null;
+        ImageIcon image = null;
         try {
             result = twitter.search(query);
         } catch (TwitterException ex) {
@@ -157,12 +163,21 @@ public class TwitTest {
         }
         System.out.println("result.getTweets().len = " + result.getTweets().size());
         for (Status status : result.getTweets()) {
-            String[] res = {"", ""};
-            res[0] = "@" + status.getUser().getScreenName();
-            res[1] = status.getText();
-            usersAndStstuses.add(res);
-            System.out.println(res[0] + "   " + res[1]);
-            sb.append(res + "\n");
+            try {
+                Object[] res = {null, null, null};
+                user = status.getUser();
+                url = new URL(user.getProfileImageURL());
+                image = new ImageIcon(url);
+                res[0] = "@" + user.getScreenName();
+                res[1] = status.getText();
+//                res[2] = image;
+                res[2] = user.getProfileImageURL();
+                usersAndStstuses.add(res);
+                System.out.println(res[0] + "   " + res[1]);
+//                sb.append(res + "\n");
+            } catch (MalformedURLException ex) {
+                java.util.logging.Logger.getLogger(TwitTest.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 //        return sb;
         return usersAndStstuses;

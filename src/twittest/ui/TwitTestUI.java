@@ -6,9 +6,15 @@
 package twittest.ui;
 
 import java.awt.Component;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import twittest.TwitTest;
@@ -53,6 +59,12 @@ public class TwitTestUI extends javax.swing.JFrame {
         searchButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         resultTable = new JTable(){@Override        public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {            Component component = super.prepareRenderer(renderer, row, column);            int rendererWidth = component.getPreferredSize().width;            TableColumn tableColumn = getColumnModel().getColumn(column);            tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width, tableColumn.getPreferredWidth()));            return component;         }     };
+        resultQuantitySlider = new javax.swing.JSlider();
+        resultQuantitySkiderLabel = new javax.swing.JLabel();
+        resultQuantityTextField = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("TwitSearch");
@@ -60,6 +72,11 @@ public class TwitTestUI extends javax.swing.JFrame {
 
         searchTextField.setToolTipText("text");
         searchTextField.setName("searchTextField"); // NOI18N
+        searchTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTextFieldActionPerformed(evt);
+            }
+        });
 
         searchButton.setText("Search");
         searchButton.addActionListener(new java.awt.event.ActionListener() {
@@ -70,36 +87,36 @@ public class TwitTestUI extends javax.swing.JFrame {
 
         resultTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "User", "Status text"
+                "UserImage", "User", "Status text"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -114,6 +131,31 @@ public class TwitTestUI extends javax.swing.JFrame {
         resultTable.setRowHeight(36);
         jScrollPane2.setViewportView(resultTable);
 
+        resultQuantitySlider.setMajorTickSpacing(10);
+        resultQuantitySlider.setMinimum(20);
+        resultQuantitySlider.setMinorTickSpacing(1);
+        resultQuantitySlider.setPaintLabels(true);
+        resultQuantitySlider.setPaintTicks(true);
+        resultQuantitySlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                resultQuantitySliderStateChanged(evt);
+            }
+        });
+
+        resultQuantitySkiderLabel.setText("Result quantity");
+
+        resultQuantityTextField.setEditable(false);
+        resultQuantityTextField.setText("50");
+        resultQuantityTextField.setToolTipText("");
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -121,21 +163,34 @@ public class TwitTestUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchTextField)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(resultQuantitySkiderLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(resultQuantityTextField))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(resultQuantitySlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(searchTextField)
+                            .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(resultQuantitySlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(resultQuantitySkiderLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(resultQuantityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -145,21 +200,51 @@ public class TwitTestUI extends javax.swing.JFrame {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         String searchStr = searchTextField.getText();
+        String userName = "";
+        String userStatus = "";
+        ImageIcon userImage = null;
 //        StringBuffer sb = twitTest.search(searchStr);
 //        searchResultTextArea.setText(sb.toString());
-        List searchResult = twitTest.search(searchStr);
+        List searchResult = twitTest.search(searchStr, resultQuantitySlider.getValue());
         Iterator it = searchResult.iterator();
         int row = 0;
+            DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
+            model.setRowCount(resultQuantitySlider.getValue());
+            resultTable.getColumnModel().getColumn(0).setCellRenderer(new ImageRenderer());
         while (it.hasNext()) {
-            String[] userAndStatus = (String[]) it.next();
-            System.err.println(userAndStatus[0] + "   " + userAndStatus[1]);
-//            resultTable.
-            resultTable.setValueAt("<html><h4>" + userAndStatus[0] + "</h4><html>", row, 0);
-            resultTable.setValueAt("<html>" + userAndStatus[1].substring(0, userAndStatus[1].length() / 2) + "<br>" + userAndStatus[1].substring(userAndStatus[1].length() / 2, userAndStatus[1].length()) + "<br></html>", row, 1);
-            row++;
+            try {
+                //            if (row == model.getRowCount()){
+//                model.setRowCount(row);
+//                model.addRow(new String[2]);
+////                resultTable.setModel(model);
+//            }
+                Object[] userAndStatus = (Object[]) it.next();
+                userName = (String) userAndStatus[0];
+                userStatus = (String) userAndStatus[1];
+//            userImage = (ImageIcon) userAndStatus[2];
+                String strUrl = (String) userAndStatus[2];
+                URL url = new URL(strUrl);
+                userImage = new ImageIcon(url);
+//            System.err.println(userAndStatus[0] + "   " + userAndStatus[1]);
+//            resultTable.set
+                resultTable.setValueAt(userImage, row, 0);
+                resultTable.setValueAt("<html><h4>" + userName + "</h4><html>", row, 1);
+                resultTable.setValueAt("<html>" + userStatus.substring(0, userStatus.length() / 2) + "<br>" + userStatus.substring(userStatus.length() / 2, userStatus.length()) + "<br></html>", row, 2);
+                row++;
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(TwitTestUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void resultQuantitySliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_resultQuantitySliderStateChanged
+        resultQuantityTextField.setText(Integer.toString(resultQuantitySlider.getValue()));
+    }//GEN-LAST:event_resultQuantitySliderStateChanged
+
+    private void searchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTextFieldActionPerformed
+        searchButtonActionPerformed(evt);
+    }//GEN-LAST:event_searchTextFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -200,7 +285,13 @@ public class TwitTestUI extends javax.swing.JFrame {
 
     private javax.swing.JTable mytTable;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel resultQuantitySkiderLabel;
+    private javax.swing.JSlider resultQuantitySlider;
+    private javax.swing.JTextField resultQuantityTextField;
     private javax.swing.JTable resultTable;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchTextField;
