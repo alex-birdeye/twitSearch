@@ -6,6 +6,7 @@
 package twittest.ui;
 
 import java.awt.Component;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Iterator;
@@ -13,10 +14,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import twittest.FileActions;
 import twittest.TwitTest;
 
 /**
@@ -63,8 +66,9 @@ public class TwitTestUI extends javax.swing.JFrame {
         resultQuantitySkiderLabel = new javax.swing.JLabel();
         resultQuantityTextField = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jMenuFile = new javax.swing.JMenu();
+        jMenuFileSave = new javax.swing.JMenuItem();
+        jMenuHelp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("TwitSearch");
@@ -148,11 +152,21 @@ public class TwitTestUI extends javax.swing.JFrame {
         resultQuantityTextField.setText("50");
         resultQuantityTextField.setToolTipText("");
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        jMenuFile.setText("File");
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenuFileSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuFileSave.setText("Save");
+        jMenuFileSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuFileSaveActionPerformed(evt);
+            }
+        });
+        jMenuFile.add(jMenuFileSave);
+
+        jMenuBar1.add(jMenuFile);
+
+        jMenuHelp.setText("Help");
+        jMenuBar1.add(jMenuHelp);
 
         setJMenuBar(jMenuBar1);
 
@@ -246,6 +260,16 @@ public class TwitTestUI extends javax.swing.JFrame {
         searchButtonActionPerformed(evt);
     }//GEN-LAST:event_searchTextFieldActionPerformed
 
+    private void jMenuFileSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuFileSaveActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        int retValue = fileChooser.showSaveDialog(this);
+        
+        if (retValue == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            FileActions.saveFile(fileToSave, resultTable);
+        }
+    }//GEN-LAST:event_jMenuFileSaveActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -285,9 +309,10 @@ public class TwitTestUI extends javax.swing.JFrame {
 
     private javax.swing.JTable mytTable;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuFile;
+    private javax.swing.JMenuItem jMenuFileSave;
+    private javax.swing.JMenu jMenuHelp;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel resultQuantitySkiderLabel;
     private javax.swing.JSlider resultQuantitySlider;
