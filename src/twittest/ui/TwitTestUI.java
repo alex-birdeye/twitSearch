@@ -6,6 +6,8 @@
 package twittest.ui;
 
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,6 +23,8 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import twittest.FileActions;
 import twittest.TwitTest;
+import twittest.mail.Mail;
+import twittest.mail.SetMailAccountFrame;
 
 /**
  *
@@ -35,7 +39,9 @@ public class TwitTestUI extends javax.swing.JFrame {
      * Creates new form TwitTestUI
      */
     public TwitTestUI() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         initComponents();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 //        mytTable = new JTable() {
 //            @Override
 //            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
@@ -70,6 +76,8 @@ public class TwitTestUI extends javax.swing.JFrame {
         jMenuFile = new javax.swing.JMenu();
         jMenuFileSave = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
+        mailMenuItem = new javax.swing.JMenu();
+        setMailAccountMenuItem = new javax.swing.JMenuItem();
         jMenuHelp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -174,6 +182,18 @@ public class TwitTestUI extends javax.swing.JFrame {
         jMenuFile.add(saveAsMenuItem);
 
         jMenuBar1.add(jMenuFile);
+
+        mailMenuItem.setText("Mail");
+
+        setMailAccountMenuItem.setText("Set mail account");
+        setMailAccountMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setMailAccountMenuItemActionPerformed(evt);
+            }
+        });
+        mailMenuItem.add(setMailAccountMenuItem);
+
+        jMenuBar1.add(mailMenuItem);
 
         jMenuHelp.setText("Help");
         jMenuBar1.add(jMenuHelp);
@@ -292,6 +312,11 @@ public class TwitTestUI extends javax.swing.JFrame {
         FileActions.saveFile(lastSavedFile, resultTable);
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
+    private void setMailAccountMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setMailAccountMenuItemActionPerformed
+        SetMailAccountFrame accountFrame = new SetMailAccountFrame();
+        accountFrame.main(new String[0]);
+    }//GEN-LAST:event_setMailAccountMenuItemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -336,6 +361,7 @@ public class TwitTestUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuFileSave;
     private javax.swing.JMenu jMenuHelp;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JMenu mailMenuItem;
     private javax.swing.JLabel resultQuantitySkiderLabel;
     private javax.swing.JSlider resultQuantitySlider;
     private javax.swing.JTextField resultQuantityTextField;
@@ -343,5 +369,6 @@ public class TwitTestUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchTextField;
+    private javax.swing.JMenuItem setMailAccountMenuItem;
     // End of variables declaration//GEN-END:variables
 }
