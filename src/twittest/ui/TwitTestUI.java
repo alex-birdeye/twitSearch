@@ -29,6 +29,7 @@ import twittest.TwitTest;
 public class TwitTestUI extends javax.swing.JFrame {
 
     static TwitTest twitTest = null;
+    private File lastSavedFile = null;
 
     /**
      * Creates new form TwitTestUI
@@ -68,6 +69,7 @@ public class TwitTestUI extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuFile = new javax.swing.JMenu();
         jMenuFileSave = new javax.swing.JMenuItem();
+        saveAsMenuItem = new javax.swing.JMenuItem();
         jMenuHelp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -163,6 +165,14 @@ public class TwitTestUI extends javax.swing.JFrame {
         });
         jMenuFile.add(jMenuFileSave);
 
+        saveAsMenuItem.setText("Save as ...");
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsMenuItemActionPerformed(evt);
+            }
+        });
+        jMenuFile.add(saveAsMenuItem);
+
         jMenuBar1.add(jMenuFile);
 
         jMenuHelp.setText("Help");
@@ -222,9 +232,9 @@ public class TwitTestUI extends javax.swing.JFrame {
         List searchResult = twitTest.search(searchStr, resultQuantitySlider.getValue());
         Iterator it = searchResult.iterator();
         int row = 0;
-            DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
-            model.setRowCount(resultQuantitySlider.getValue());
-            resultTable.getColumnModel().getColumn(0).setCellRenderer(new ImageRenderer());
+        DefaultTableModel model = (DefaultTableModel) resultTable.getModel();
+        model.setRowCount(resultQuantitySlider.getValue());
+        resultTable.getColumnModel().getColumn(0).setCellRenderer(new ImageRenderer());
         while (it.hasNext()) {
             try {
                 //            if (row == model.getRowCount()){
@@ -261,14 +271,26 @@ public class TwitTestUI extends javax.swing.JFrame {
     }//GEN-LAST:event_searchTextFieldActionPerformed
 
     private void jMenuFileSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuFileSaveActionPerformed
+        if (lastSavedFile == null) {
+            JFileChooser fileChooser = new JFileChooser();
+            int retValue = fileChooser.showSaveDialog(this);
+
+            if (retValue == JFileChooser.APPROVE_OPTION) {
+                lastSavedFile = fileChooser.getSelectedFile();
+            }
+        }
+        FileActions.saveFile(lastSavedFile, resultTable);
+    }//GEN-LAST:event_jMenuFileSaveActionPerformed
+
+    private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         int retValue = fileChooser.showSaveDialog(this);
-        
+
         if (retValue == JFileChooser.APPROVE_OPTION) {
-            File fileToSave = fileChooser.getSelectedFile();
-            FileActions.saveFile(fileToSave, resultTable);
+            lastSavedFile = fileChooser.getSelectedFile();
         }
-    }//GEN-LAST:event_jMenuFileSaveActionPerformed
+        FileActions.saveFile(lastSavedFile, resultTable);
+    }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -318,6 +340,7 @@ public class TwitTestUI extends javax.swing.JFrame {
     private javax.swing.JSlider resultQuantitySlider;
     private javax.swing.JTextField resultQuantityTextField;
     private javax.swing.JTable resultTable;
+    private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchTextField;
     // End of variables declaration//GEN-END:variables
