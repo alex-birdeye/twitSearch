@@ -5,6 +5,10 @@
  */
 package twittest.mail;
 
+import java.util.Iterator;
+import utils.MyComboBoxModel;
+import utils.Util;
+
 /**
  *
  * @author youser
@@ -16,6 +20,7 @@ public class SendEMailForm extends javax.swing.JFrame {
      */
     public SendEMailForm() {
         initComponents();
+        Util.setWindowCentered(this);
     }
 
     /**
@@ -27,21 +32,69 @@ public class SendEMailForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        toLabel = new javax.swing.JLabel();
+        toComboBox = new javax.swing.JComboBox();
+        sendButton = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        toLabel.setText("To");
+
+        toComboBox.setEditable(true);
+        toComboBox.setModel(Util.model
+        );
+
+        sendButton.setText("Send");
+        sendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(toLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(261, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(toLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(toComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(91, 91, 91)
+                .addComponent(sendButton)
+                .addContainerGap(122, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+        Util.model.addElement(toComboBox.getSelectedItem());
+//        Util.comboBoxEmails.add(toComboBox.getSelectedItem().toString());
+//        System.out.println("Util.comboBoxEmails.size = " + Util.comboBoxEmails.size());
+//        for (Iterator iterator = Util.comboBoxEmails.iterator(); iterator.hasNext();) {
+//                String next = (String) iterator.next();
+//                toComboBox.addItem(next);
+//            }
+//        for (int i = 0; i < Util.comboBoxEmails.size(); i++) {
+//            System.out.println("Util.comboBoxEmails.size = " + Util.comboBoxEmails.size());
+//            String email = (String)Util.comboBoxEmails.get(i);
+//            System.out.println("email = " + email);
+//            if (email != null) {
+//                toComboBox.addItem(email);
+//            }
+//        }
+    }//GEN-LAST:event_sendButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +132,8 @@ public class SendEMailForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton sendButton;
+    private javax.swing.JComboBox toComboBox;
+    private javax.swing.JLabel toLabel;
     // End of variables declaration//GEN-END:variables
 }
