@@ -6,6 +6,7 @@
 package twittest.mail;
 
 import java.util.Iterator;
+import javax.swing.JFileChooser;
 import utils.MyComboBoxModel;
 import utils.Util;
 
@@ -35,8 +36,17 @@ public class SendEMailForm extends javax.swing.JFrame {
         toLabel = new javax.swing.JLabel();
         toComboBox = new javax.swing.JComboBox();
         sendButton = new javax.swing.JButton();
+        subjectLabel = new javax.swing.JLabel();
+        subjectTextField = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        bodyTextPane = new javax.swing.JTextPane();
+        attachButton = new javax.swing.JButton();
+        attachName1 = new javax.swing.JLabel();
+        attachName2 = new javax.swing.JLabel();
+        attachName3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(400, 0));
 
         toLabel.setText("To");
 
@@ -51,28 +61,80 @@ public class SendEMailForm extends javax.swing.JFrame {
             }
         });
 
+        subjectLabel.setText("Subject");
+
+        jScrollPane1.setViewportView(bodyTextPane);
+
+        attachButton.setText("Attachment");
+        attachButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                attachButtonActionPerformed(evt);
+            }
+        });
+
+        attachName1.setText("jLabel1");
+        attachName1.setVisible(false);
+
+        attachName2.setText("jLabel1");
+        attachName2.setVisible(false);
+
+        attachName3.setText("jLabel1");
+        attachName3.setVisible(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(toLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(toComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(261, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(toLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(toComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(subjectLabel)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(subjectTextField)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(attachButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(attachName1)
+                                .addGap(18, 18, 18)
+                                .addComponent(attachName2)
+                                .addGap(18, 18, 18)
+                                .addComponent(attachName3)))
+                        .addGap(0, 111, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(toLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(toLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(subjectLabel))
+                .addGap(1, 1, 1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(subjectTextField)
+                    .addComponent(toComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(toComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(attachButton)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(attachName1)
+                        .addComponent(attachName2)
+                        .addComponent(attachName3)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sendButton)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addGap(5, 5, 5))
         );
 
         pack();
@@ -80,21 +142,21 @@ public class SendEMailForm extends javax.swing.JFrame {
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         Util.model.addElement(toComboBox.getSelectedItem());
-//        Util.comboBoxEmails.add(toComboBox.getSelectedItem().toString());
-//        System.out.println("Util.comboBoxEmails.size = " + Util.comboBoxEmails.size());
-//        for (Iterator iterator = Util.comboBoxEmails.iterator(); iterator.hasNext();) {
-//                String next = (String) iterator.next();
-//                toComboBox.addItem(next);
-//            }
-//        for (int i = 0; i < Util.comboBoxEmails.size(); i++) {
-//            System.out.println("Util.comboBoxEmails.size = " + Util.comboBoxEmails.size());
-//            String email = (String)Util.comboBoxEmails.get(i);
-//            System.out.println("email = " + email);
-//            if (email != null) {
-//                toComboBox.addItem(email);
-//            }
-//        }
+        Mail mail = new Mail();
+        mail.sendMail(toComboBox.getSelectedItem().toString(), subjectTextField.getText(), bodyTextPane.getText());
     }//GEN-LAST:event_sendButtonActionPerformed
+
+    private void attachButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attachButtonActionPerformed
+        if (Mail.attachmentsCount == 3)
+            return;
+        JFileChooser chooser = new JFileChooser();
+        int rVal = chooser.showSaveDialog(this);
+        if (rVal == JFileChooser.APPROVE_OPTION) {
+            Mail.attachments.add(chooser.getSelectedFile());
+            Mail.attachmentsCount++;
+            Mail.displayAttName();
+        }
+    }//GEN-LAST:event_attachButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,7 +194,15 @@ public class SendEMailForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton attachButton;
+    public static javax.swing.JLabel attachName1;
+    public static javax.swing.JLabel attachName2;
+    public static javax.swing.JLabel attachName3;
+    private javax.swing.JTextPane bodyTextPane;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton sendButton;
+    private javax.swing.JLabel subjectLabel;
+    private javax.swing.JTextField subjectTextField;
     private javax.swing.JComboBox toComboBox;
     private javax.swing.JLabel toLabel;
     // End of variables declaration//GEN-END:variables
